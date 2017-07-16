@@ -15,7 +15,8 @@ from flask import Flask, request, Response
 import requests
 from slackclient import SlackClient
 
-import UIConnector_FBM, UIConnector_Slack
+from uiconnector_fbm import UIConnector_FBM
+from uiconnector_slack import UIConnector_Slack
 
 
 
@@ -28,36 +29,35 @@ def home():
 
 """ 1. Facebook Messenger Integration"""
 # 1. initialize
-FBM_WEBHOOK_TOKEN = os.environ["FBM_WEBHOOK_TOKEN"]
-FBM_CLIENTACCESS_TOKEN = os.environ["FBM_CLIENTACCESS_TOKEN"]
-uiconnector_fbm = UIConnector_FBM(FBM_WEBHOOK_TOKEN, FBM_CLIENTACCESS_TOKEN)
+FBMESSENGER_VERIFY_TOKEN = os.environ["FBMESSENGER_VERIFY_TOKEN"]
+FBMESSENGER_PAGEACCESS_TOKEN = os.environ["FBMESSENGER_PAGEACCESS_TOKEN"]
+fbm_connector = UIConnector_FBM(FBMESSENGER_VERIFY_TOKEN, FBMESSENGER_PAGEACCESS_TOKEN)
 
 # 2. define the webhook methods
 @app.route('/fbmessenger', methods=['GET'])
 def fbm_webhook_get():
-    uiconnector_fbm.webhook_verify(request)
+    return fbm_connector.webhook_verify(request)
 
 @app.route('/fbmessenger', methods=['POST'])
 def fbm_webhook_post():
-    uiconnector_fbm.webhook_post(request)
-    return "ok", 200
+    return fbm_connector.webhook_post(request)
+    
 """============================"""    
 
     
 """ 2. Slack Integration """
 SLACK_WEBHOOK_TOKEN = os.environ["SLACK_WEBHOOK_TOKEN"]
 SLACK_CLIENTACCESS_TOKEN = os.environ["SLACK_CLIENTACCESS_TOKEN"]
-uiconnector_slack = UIConnector_Slack(SLACK_WEBHOOK_TOKEN, SLACK_CLIENTACCESS_TOKEN)
+slack_connector = UIConnector_Slack(SLACK_WEBHOOK_TOKEN, SLACK_CLIENTACCESS_TOKEN)
 
 @app.route('/slack', methods=['GET'])
 def slack_webhook_get():
-    uiconnector_slack.webhook_verify(request)
+    return slack_connector.webhook_verify(request)
     
 @app.route('/slack', methods=['POST'])
 def slack_webhook_post():
-    uiconnector_slack.webhook_post(request)
+    return slack_connector.webhook_post(request)
 """============================"""
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

@@ -12,7 +12,7 @@ import sys
 from flask import request
 from slackclient import SlackClient
 
-class UIConnector_Slack:
+class UIConnector_Slack():
     
     SLACK_WEBHOOK_TOKEN=""
     SLACK_CLIENTACCESS_TOKEN=""
@@ -22,7 +22,7 @@ class UIConnector_Slack:
         self.SLACK_CLIENTACCESS_TOKEN = client_token
         
         # initialize the Slack Client
-        self.slack_client = SlackClient(SLACK_CLIENTACCESS_TOKEN)
+        self.slack_client = SlackClient(self.SLACK_CLIENTACCESS_TOKEN)
         self.slack_client.rtm_connect()
 
     def webhook_verify(self, request):

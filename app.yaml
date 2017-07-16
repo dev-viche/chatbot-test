@@ -1,7 +1,14 @@
-runtime: python27
-api_version: 1
-threadsafe: true
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
 
-handlers:
-- url: /.*
-  script: main.app
+runtime_config:
+  python_version: 3
+
+#[START env]  
+env_variables:
+    FBMESSENGER_PAGEACCESS_TOKEN: 'EAABhnNZAn4PgBAGZAQInGp8TACA56x306lv7eFNpwwwgUyldGz3HWKWiTIumi8ExqZBn0jXUAF7Jhq026Ow1o9JcoKv5JO7HSvkvIZCrJUrp7KbTmHcJfO4ex0CAgOvhZCLhp70SF9HNIA8SZBfYwjz4vgz0XhoouSb5xH0v9ObV6P6Q0InX3M'
+    FBMESSENGER_VERIFY_TOKEN: 'test_token'
+    SLACK_CLIENTACCESS_TOKEN: 'xoxb-214519731111-dg4YnJPcUBINpR39DKqVV55Q'
+    SLACK_WEBHOOK_TOKEN: 'nIJuSIcmiRm9Gx7d5kvcimNz'
+#[END env]

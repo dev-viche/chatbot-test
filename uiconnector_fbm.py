@@ -11,20 +11,20 @@ import requests
 import sys
 from flask import request
 
-class UIConnector_FBM:
+class UIConnector_FBM():
     
-    FBMESSENGER_WEBHOOK_TOKEN=""
-    FBMESSENGER_CLIENTACCESS_TOKEN=""
+    FBMESSENGER_VERIFY_TOKEN=""
+    FBMESSENGER_PAGETACCESS_TOKEN=""
     
     def __init__(self, webhook_token, client_token):
-        self.FBMESSENGER_WEBHOOK_TOKEN = webhook_token
-        self.FBMESSENGER_CLIENTACCESS_TOKEN = client_token
+        self.FBMESSENGER_VERIFY_TOKEN = webhook_token
+        self.FBMESSENGER_PAGETACCESS_TOKEN = client_token
 
     def webhook_verify(self, request):
         
         # if a webhook endpoint, it must echo back the 'hub.challenge' value
         if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-            if request.args.get("hub.verify_token") == self.FBMESSENGER_WEBHOOK_TOKEN:
+            if request.args.get("hub.verify_token") == self.FBMESSENGER_VERIFY_TOKEN:
                 return request.args["hub.challenge"], 200
             return "FB Messenger webhook verification token mismatch", 403
         
@@ -55,6 +55,8 @@ class UIConnector_FBM:
     
                     if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
                         pass
+        
+        return "ok", 200
     
         
     def webhook_respond(self, recipient_id, message_text):
@@ -62,7 +64,7 @@ class UIConnector_FBM:
         self.log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
     
         params = {
-            "access_token": self.FBMESSENGER_CLIENTACCESS_TOKEN
+            "access_token": self.FBMESSENGER_PAGETACCESS_TOKEN
         }
         headers = {
             "Content-Type": "application/json"
