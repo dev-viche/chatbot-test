@@ -20,7 +20,6 @@ class UIConnector_Slack():
         
         # initialize the Slack Client
         self.slack_client = SlackClient(self.SLACK_CLIENTACCESS_TOKEN)
-        self.slack_client.rtm_connect()
 
     def webhook_verify(self, request):
 
