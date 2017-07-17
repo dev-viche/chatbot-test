@@ -13,9 +13,6 @@ from flask import request
 
 class UIConnector_FBM():
     
-    FBMESSENGER_VERIFY_TOKEN=""
-    FBMESSENGER_PAGETACCESS_TOKEN=""
-    
     def __init__(self, webhook_token, client_token):
         self.FBMESSENGER_VERIFY_TOKEN = webhook_token
         self.FBMESSENGER_PAGETACCESS_TOKEN = client_token

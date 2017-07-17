@@ -14,9 +14,6 @@ from slackclient import SlackClient
 
 class UIConnector_Slack():
     
-    SLACK_WEBHOOK_TOKEN=""
-    SLACK_CLIENTACCESS_TOKEN=""
-    
     def __init__(self, webhook_token, client_token):
         self.SLACK_WEBHOOK_TOKEN = webhook_token
         self.SLACK_CLIENTACCESS_TOKEN = client_token
@@ -35,7 +32,7 @@ class UIConnector_Slack():
             channel = request.form.get('channel_name')
             username = request.form.get('user_name')
             text = request.form.get('text')
-            inbound_message = username + " in " + channel + " says: " + text
+            inbound_message = 'slack:' + username + " in " + channel + " says: " + text
             
             self.log(inbound_message)
         
